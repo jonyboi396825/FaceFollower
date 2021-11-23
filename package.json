@@ -1,0 +1,19 @@
+{
+  "name": "facefollower",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonyboi396825/FaceFollower.git"
+  },
+  "author": "Jonathan Liu",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/jonyboi396825/FaceFollower/issues"
+  },
+  "homepage": "https://github.com/jonyboi396825/FaceFollower#readme"
+}
