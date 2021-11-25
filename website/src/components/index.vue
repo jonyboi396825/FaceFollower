@@ -1,7 +1,11 @@
 <template>
   <div id="root">
     <p> Press WASD to move the robot </p> 
-    <p>{{msg}}</p>
+
+    <span type="button" v-if="wisdown" id="forwardbutton">Forward</span>
+    <span type="button" v-if="aisdown" id="leftbutton">Left</span>
+    <span type="button" v-if="sisdown" id="downbutton">Back</span>
+    <span type="button" v-if="disdown" id="rightbutton">Right</span>
 
   </div>
 </template>
@@ -16,7 +20,6 @@ export default {
       aisdown: false,
       sisdown: false,
       disdown: false,
-      msg: "asdf"
     };
   },
   methods: {
@@ -30,6 +33,9 @@ export default {
   mounted() {    
     window.addEventListener("keydown", (e) => {
       e = e || window.event;
+
+      // only one key at a time pressed
+      if (this.wisdown || this.aisdown || this.sisdown || this.disdown) return;
 
       if (e.key == 'w' && !this.wisdown){
           console.log("w down");
