@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from com_server import Connection, RestApiHandler, Builtins
+from flask_cors import CORS
+from flask import request, make_response
 
 def main():
     # order of priority
@@ -21,10 +23,11 @@ def main():
     if (not conn.connected):
         raise EnvironmentError("Arduino not found")
 
-    handler = RestApiHandler(conn)
+    handler = RestApiHandler(conn, has_register_recall=False)
     Builtins(handler)
-    
-    handler.run_prod(host="127.0.0.1", port=7123)
+    CORS(handler.flask_obj)
+ 
+    handler.run_dev(host="0.0.0.0", port=7123)
 
 if __name__ == "__main__":
     main()
