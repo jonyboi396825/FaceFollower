@@ -1,13 +1,21 @@
 <template>
   <div id="root">
-    <p> Press WASD to move the robot </p> 
+    <h2> Press WASD to move the robot </h2> 
 
-    <span type="button" v-if="wisdown" id="forwardbutton">Forward</span>
-    <span type="button" v-if="aisdown" id="leftbutton">Left</span>
-    <span type="button" v-if="sisdown" id="downbutton">Back</span>
-    <span type="button" v-if="disdown" id="rightbutton">Right</span>
-
+    <span v-if="wisdown" id="forwardbutton">Forward</span>
+    <span v-if="aisdown" id="leftbutton">Left</span>
+    <span v-if="sisdown" id="downbutton">Back</span>
+    <span v-if="disdown" id="rightbutton">Right</span>
+    
+    <p>Status code: {{statuscode}}</p>
     <p>Last button press: {{lastUsed}}</p>
+
+    <div id="stream">
+      <h3>Video stream</h3>
+
+      <img src="http://raspberrypizero.local:8000/stream.mjpg">
+    </div>
+
 
   </div>
 </template>
@@ -25,7 +33,8 @@ export default {
       sisdown: false,
       disdown: false,
       maxspeed: 127,
-      lastUsed: Date.now()
+      lastUsed: Date.now(),
+      statuscode: null,
     };
   },
   methods: {
@@ -36,7 +45,9 @@ export default {
           ending: "\n",
         }).then((res) => {
           console.log(res);
+          this.statuscode = res.status;
         }).catch((err) => {
+          this.statuscode = err.response.status;
           console.log(err.response);
         });
     },
@@ -47,7 +58,9 @@ export default {
           ending: "\n",
         }).then((res) => {
           console.log(res);
+          this.statuscode = res.status;
         }).catch((err) => {
+          this.statuscode = err.response.status;
           console.log(err.response);
         });
     },
@@ -58,7 +71,9 @@ export default {
           ending: "\n",
         }).then((res) => {
           console.log(res);
+          this.statuscode = res.status;
         }).catch((err) => {
+          this.statuscode = err.response.status;
           console.log(err.response);
         });
     },
@@ -69,7 +84,9 @@ export default {
           ending: "\n",
         }).then((res) => {
           console.log(res);
+          this.statuscode = res.status;
         }).catch((err) => {
+          this.statuscode = err.response.status;
           console.log(err.response);
         });
     },
@@ -81,7 +98,9 @@ export default {
           ending: "\n",
         }).then((res) => {
           console.log(res);
+          this.statuscode = res.status;
         }).catch((err) => {
+          this.statuscode = err.response.status;
           console.log(err.response);
         });
       }, 100);
