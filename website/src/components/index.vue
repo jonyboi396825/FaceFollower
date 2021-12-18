@@ -13,7 +13,7 @@
     <div id="stream">
       <h3>Video stream</h3>
 
-      <img src="http://raspberrypizero.local:8000/stream.mjpg">
+      <img src="http://raspberrypizero.local:7123/stream">
     </div>
 
 

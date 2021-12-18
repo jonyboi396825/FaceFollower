@@ -10,7 +10,7 @@ class VCam():
         self.video = cv2.VideoCapture(0)
 
     def __del__(self):
-        print("deleting")
+        print("stopping video")
         self.video.release()
 
     def next_frame(self):
