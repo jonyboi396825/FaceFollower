@@ -4,7 +4,7 @@
 import time
 
 from com_server import Connection, RestApiHandler, Builtins
-from flask import Flask, render_template, Response
+from flask import Response, jsonify
 
 from camera import VCam
 
@@ -12,6 +12,8 @@ conn = Connection(115200, "/dev/ttyUSB0", "/dev/ttyUSB1", "/dev/ttyACM0", "/dev/
 
 handler = RestApiHandler(conn, has_register_recall=False, add_cors=True, catch_all_404s=True)
 Builtins(handler)
+
+manual = True
 
 def stream_gen(cam: VCam):
     while True:
@@ -22,6 +24,16 @@ def stream_gen(cam: VCam):
 @handler.flask_obj.route("/stream")
 def stream():
     return Response(stream_gen(VCam()), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+@handler.flask_obj.route("/manual_state")
+def manual_state():
+    return jsonify({"manual": manual});
+
+@handler.flask_obj.route("/manual_toggle")
+def toggle_manual():
+    global manual
+    manual  = not manual
+    return jsonify({"manual": manual});
 
 if __name__ == "__main__": 
     handler.run_prod(host="0.0.0.0", port=7123)

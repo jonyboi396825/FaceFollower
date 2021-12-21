@@ -10,10 +10,12 @@
     <p>Status code: {{statuscode}}</p>
     <p>Last button press: {{lastUsed}}</p>
 
+    <button @click="toggleManual()">{{ manual ? "Toggle automatic" : "Toggle manual" }}</button>
+
     <div id="stream">
       <h3>Video stream</h3>
 
-      <img src="http://raspberrypizero.local:7123/stream">
+      <!-- <img src="http://raspberrypizero.local:7123/stream"> -->
     </div>
 
 
@@ -35,11 +37,11 @@ export default {
       maxspeed: 127,
       lastUsed: Date.now(),
       statuscode: null,
+      manual: true
     };
   },
   methods: {
     goForwardStart: function(){
-      console.log("here");
         axios.post("http://raspberrypizero.local:7123/send", {
           data: `l:${this.maxspeed};r:${this.maxspeed}`,
           ending: "\n",
@@ -52,7 +54,6 @@ export default {
         });
     },
     goLeftStart: function(){
-      console.log("here");
         axios.post("http://raspberrypizero.local:7123/send", {
           data: `l:${-this.maxspeed};r:${this.maxspeed}`,
           ending: "\n",
@@ -65,7 +66,6 @@ export default {
         });
     },
     goRightStart: function(){
-      console.log("here");
         axios.post("http://raspberrypizero.local:7123/send", {
           data: `l:${this.maxspeed};r:${-this.maxspeed}`,
           ending: "\n",
@@ -78,7 +78,6 @@ export default {
         });
     },
     goBackStart: function(){
-      console.log("here");
         axios.post("http://raspberrypizero.local:7123/send", {
           data: `l:${-this.maxspeed};r:${-this.maxspeed}`,
           ending: "\n",
@@ -91,7 +90,6 @@ export default {
         });
     },
     stop: function(){
-      console.log("here");
       setTimeout(() => { 
         axios.post("http://raspberrypizero.local:7123/send", {
           data: "l:0;r:0",
@@ -105,6 +103,17 @@ export default {
         });
       }, 100);
     },
+    toggleManual: function(){
+      axios.get("http://raspberrypizero.local:7123/manual_toggle", {
+          data: !this.manual
+        }).then((res) =>{
+          console.log(res);
+        this.manual = !this.manual;
+          }).catch((err) => {
+            console.log(err);
+        this.manual = !this.manual;
+            });
+    }
   },
   mounted() {    
     window.addEventListener("keydown", (e) => {
@@ -173,6 +182,13 @@ export default {
           this.disdown = false;
         } 
     });
+
+    axios.get("http://raspberrypizero.local:7123/manual_state").then((res) => {
+        console.log(res);
+        this.manual = res.data.manual;
+      }).catch((err) => {
+          console.log(err);
+        });
   },
 }
 
