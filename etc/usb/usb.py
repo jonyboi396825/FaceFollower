@@ -17,7 +17,9 @@ manual = True
 
 def stream_gen(cam: VCam):
     while True:
-        frame = cam.next_frame()
+        global manual
+            
+        frame = cam.next_frame(manual)
         yield (b'--frame\r\nContent-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
         time.sleep(0.01)
 
