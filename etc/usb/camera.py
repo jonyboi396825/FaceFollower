@@ -27,7 +27,8 @@ class VCam():
 
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         faces = cascade.detectMultiScale(gray, 1.3, 5)
-        is_in = False
+        is_good_left = False
+        is_good_right = False
         if (len(faces) > 0):
             x, y, w, h = faces[0]
 
@@ -41,11 +42,16 @@ class VCam():
             if (x+10 < wid):
                 cv2.line(image, (x+w+10, 0), (x+w+10, hei), (235, 183, 0), 2)
 
-            if (wid//2 >= x-10 and wid//2 <= x+w+10):
-                is_in = True
+            is_good_left = (wid//2 >= x-10)
+            is_good_right = (wid//2 <= x+w+10)
 
 
-        middle_color = (0, 255, 0) if is_in else (0, 0, 255)
+        if (is_good_left != is_good_right):
+            middle_color = (0, 0, 255)
+        elif (not is_good_left):
+            middle_color = (155, 155, 155)
+        else:
+            middle_color = (0, 255, 0)
 
         # center line - where the robot is facing
         cv2.line(image, (wid//2, 0), (wid//2, hei), middle_color, 2)
