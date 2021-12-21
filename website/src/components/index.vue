@@ -2,10 +2,10 @@
   <div id="root">
     <h2> Press WASD to move the robot </h2> 
 
-    <span v-if="wisdown" id="forwardbutton">Forward</span>
-    <span v-if="aisdown" id="leftbutton">Left</span>
-    <span v-if="sisdown" id="downbutton">Back</span>
-    <span v-if="disdown" id="rightbutton">Right</span>
+    <span v-if="manual && wisdown" id="forwardbutton">Forward</span>
+    <span v-if="manual && aisdown" id="leftbutton">Left</span>
+    <span v-if="manual && sisdown" id="downbutton">Back</span>
+    <span v-if="manual && disdown" id="rightbutton">Right</span>
     
     <p>Status code: {{statuscode}}</p>
     <p>Last button press: {{lastUsed}}</p>
@@ -15,7 +15,7 @@
     <div id="stream">
       <h3>Video stream</h3>
 
-      <!-- <img src="http://raspberrypizero.local:7123/stream"> -->
+      <img src="http://raspberrypizero.local:7123/stream">
     </div>
 
 
@@ -118,6 +118,9 @@ export default {
   mounted() {    
     window.addEventListener("keydown", (e) => {
       e = e || window.event;
+
+      // return if automatic
+      if (!this.manual) return;
 
       // only one key at a time pressed
       if (this.wisdown || this.aisdown || this.sisdown || this.disdown) return;
