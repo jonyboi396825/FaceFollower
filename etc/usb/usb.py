@@ -8,7 +8,7 @@ from flask import Response, jsonify
 
 from camera import VCam
 
-conn = Connection(115200, "/dev/ttyUSB0", "/dev/ttyUSB1", "/dev/ttyACM0", "/dev/ttyACM1", send_interval=0.1)
+conn = Connection(115200, "/dev/ttyUSB0", "/dev/ttyUSB1", "/dev/ttyACM0", "/dev/ttyACM1", send_interval=0)
 
 handler = RestApiHandler(conn, has_register_recall=False, add_cors=True, catch_all_404s=True)
 Builtins(handler)
@@ -25,7 +25,7 @@ def stream_gen(cam: VCam):
 
 @handler.flask_obj.route("/stream")
 def stream():
-    return Response(stream_gen(VCam()), mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(stream_gen(VCam(conn)), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @handler.flask_obj.route("/manual_state")
 def manual_state():
@@ -35,6 +35,10 @@ def manual_state():
 def toggle_manual():
     global manual
     manual  = not manual
+
+    time.sleep(0.5)
+
+    conn.send("l:0;r:0", ending='\n')
     return jsonify({"manual": manual});
 
 if __name__ == "__main__": 

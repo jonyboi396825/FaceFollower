@@ -4,11 +4,14 @@
 import cv2
 import time
 
+from mover import Mover
+
 cascade = cv2.CascadeClassifier("./haarcascade_frontalface_default.xml")
 
 class VCam():
-    def __init__(self) -> None:
+    def __init__(self, conn) -> None:
         self.video = cv2.VideoCapture(0)
+        self.mover = Mover(conn)
 
     def __del__(self):
         print("stopping video")
@@ -17,8 +20,8 @@ class VCam():
     def next_frame(self, manual):
         global cascade
 
-        if not manual:
-            print("here", time.time())
+        # if not manual:
+        #     print("here", time.time())
             
         _, image = self.video.read()
 
@@ -47,11 +50,31 @@ class VCam():
 
 
         if (is_good_left != is_good_right):
+            # set color
             middle_color = (0, 0, 255)
+
+            # move motors
+            if (not manual):
+                if (is_good_left):
+                    # this means that face is on the left, move to the left
+                    self.mover.moveL()
+                else:
+                    # this means that face is on the right, move to the right
+                    self.mover.moveR()
         elif (not is_good_left):
+            # set color
             middle_color = (155, 155, 155)
+
+            # move motors
+            if (not manual):
+                self.mover.stop()
         else:
+            # set color
             middle_color = (0, 255, 0)
+
+            # move motors
+            if (not manual):
+                self.mover.stop()
 
         # center line - where the robot is facing
         cv2.line(image, (wid//2, 0), (wid//2, hei), middle_color, 2)
