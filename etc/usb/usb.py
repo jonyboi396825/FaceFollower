@@ -3,7 +3,8 @@
 
 import time
 
-from com_server import Connection, RestApiHandler, Builtins
+from com_server import Connection, RestApiHandler
+from com_server.api import Builtins
 from flask import Response, jsonify
 
 from camera import VCam

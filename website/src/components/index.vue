@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     goForwardStart: function(){
-        axios.post("http://raspberrypizero.local:7123/send", {
+        axios.post("http://raspberrypizero.local:7123/v0/send", {
           data: `l:${this.maxspeed};r:${this.maxspeed}`,
           ending: "\n",
         }).then((res) => {
@@ -54,7 +54,7 @@ export default {
         });
     },
     goLeftStart: function(){
-        axios.post("http://raspberrypizero.local:7123/send", {
+        axios.post("http://raspberrypizero.local:7123/v0/send", {
           data: `l:${-this.maxspeed};r:${this.maxspeed}`,
           ending: "\n",
         }).then((res) => {
@@ -66,7 +66,7 @@ export default {
         });
     },
     goRightStart: function(){
-        axios.post("http://raspberrypizero.local:7123/send", {
+        axios.post("http://raspberrypizero.local:7123/v0/send", {
           data: `l:${this.maxspeed};r:${-this.maxspeed}`,
           ending: "\n",
         }).then((res) => {
@@ -78,7 +78,7 @@ export default {
         });
     },
     goBackStart: function(){
-        axios.post("http://raspberrypizero.local:7123/send", {
+        axios.post("http://raspberrypizero.local:7123/v0/send", {
           data: `l:${-this.maxspeed};r:${-this.maxspeed}`,
           ending: "\n",
         }).then((res) => {
@@ -91,7 +91,7 @@ export default {
     },
     stop: function(){
       setTimeout(() => { 
-        axios.post("http://raspberrypizero.local:7123/send", {
+        axios.post("http://raspberrypizero.local:7123/v0/send", {
           data: "l:0;r:0",
           ending: "\n",
         }).then((res) => {
