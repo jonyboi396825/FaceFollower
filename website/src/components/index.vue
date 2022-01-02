@@ -34,7 +34,7 @@ export default {
       aisdown: false,
       sisdown: false,
       disdown: false,
-      maxspeed: 127,
+      maxspeed: 100,
       lastUsed: Date.now(),
       statuscode: null,
       manual: true
